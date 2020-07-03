@@ -2,4 +2,11 @@
     <string name="app_name">Android Training</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
+    <string name="set_resource_image">Set Resource Image</string>
+    <string name="open_image_sample">Open Image Sample</string>
+    <string name="item1">Menu Item 1</string>
+    <string name="group_item1">Group Item 1</string>
+    <string name="group_item2">Group Item 2</string>
+    <string name="submenu_title">Sub Menu Title</string>
+    <string name="submenu_item1">Sub Menu Item 1</string>
 </resources>
