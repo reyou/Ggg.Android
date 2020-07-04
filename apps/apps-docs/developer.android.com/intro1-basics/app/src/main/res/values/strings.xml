@@ -11,4 +11,5 @@
     <string name="submenu_item1">Sub Menu Item 1</string>
     <string name="list_permissions">List Permissions</string>
     <string name="permissions_will_be_listed_here">Permissions will be listed here...</string>
+    <string name="camera_preview">Camera Preview</string>
 </resources>

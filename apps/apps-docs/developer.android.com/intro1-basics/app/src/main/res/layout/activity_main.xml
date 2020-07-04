@@ -42,8 +42,10 @@
         android:fontFamily="@font/lobster"
         android:onClick="openImageSample"
         android:text="@string/open_image_sample"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        tools:layout_editor_absoluteX="79dp" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonCameraPreview"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <Button
         android:id="@+id/buttonListPermissions"
@@ -66,4 +68,15 @@
         android:text="@string/permissions_will_be_listed_here"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonListPermissions" />
+
+    <Button
+        android:id="@+id/buttonCameraPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="cameraPreview"
+        android:text="@string/camera_preview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonOpenImageSample"
+        tools:layout_editor_absoluteY="105dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

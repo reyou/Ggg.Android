@@ -1,9 +1,11 @@
 package com.readendless.androidtraining
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -53,6 +55,30 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, newConfig.orientation, Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    fun cameraPreview(view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.CAMERA) === PackageManager.PERMISSION_GRANTED) {
+                showCameraPreview()
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    Toast.makeText(
+                        this,
+                        "Camera permission is needed to show the camera preview.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                // Request Camera permission
+                val CAMERA_REQUEST_CODE = 100
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), CAMERA_REQUEST_CODE)
+            }
+        }
+    }
+
+    private fun showCameraPreview() {
+        TODO("Not yet implemented")
     }
 
     fun listPermissions(view: View) {
