@@ -9,4 +9,6 @@
     <string name="group_item2">Group Item 2</string>
     <string name="submenu_title">Sub Menu Title</string>
     <string name="submenu_item1">Sub Menu Item 1</string>
+    <string name="list_permissions">List Permissions</string>
+    <string name="permissions_will_be_listed_here">Permissions will be listed here...</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.readendless.androidtraining
 
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +12,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -49,6 +52,30 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, newConfig.orientation, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun listPermissions(view: View) {
+        val packageInfo: PackageInfo = super.getPackageManager().getPackageInfo(
+            "com.readendless.androidtraining",
+            PackageManager.GET_PERMISSIONS
+        )
+
+        val requestedPermissions: Array<String> = packageInfo.requestedPermissions;
+        val granted = mutableListOf<String>();
+
+        requestedPermissions.forEachIndexed { index, _ ->
+            run {
+                if (packageInfo.requestedPermissionsFlags[index] != 0
+                    && PackageInfo.REQUESTED_PERMISSION_GRANTED != 0
+                ) {
+                    granted.add(packageInfo.requestedPermissions[index]);
+                }
+            }
+        }
+
+        for (grantedPermission in granted) {
+            textViewPermissions.text = "${textViewPermissions.text} $grantedPermission, "
         }
     }
 
