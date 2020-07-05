@@ -1,14 +1,18 @@
 package com.readendless.permissionstraining
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Telephony
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +46,44 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            run {
+                when (result.resultCode) {
+                    Activity.RESULT_OK -> {
+                        Toast.makeText(
+                            this,
+                            "Activity returned OK!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        val intent = result.data
+                    }
+                    Activity.RESULT_CANCELED -> {
+                        Toast.makeText(
+                            this,
+                            "Activity CANCELLED!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    else -> {
+                        Toast.makeText(
+                            this,
+                            "Activity result code: ${result.resultCode}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+
+    fun changeDefaultSmsHandler(view: View) {
+        val setSmsAppIntent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
+        setSmsAppIntent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
+        setSmsAppIntent.apply {
+            startForResult.launch(this)
+        }
     }
 
     fun checkPermission(view: View) {
@@ -81,5 +123,23 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun intentFilterExampleExecutor(view: View) {
+        val textMessage = "This is a sample text message.";
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, textMessage)
+        }
+        startActivity(sendIntent)
+    }
+
+    fun sendMessage(view: View) {
+        val textMessage = txtSendMessage.text;
+        val intent = Intent(this, ExampleActivity::class.java).apply {
+            putExtra("StateMessage", textMessage)
+        }
+        startActivity(intent)
     }
 }

@@ -1,0 +1,6 @@
+val sendIntent = Intent().apply {
+    action = Intent.ACTION_SEND
+    type = "text/plain"
+    putExtra(Intent.EXTRA_TEXT, textMessage)
+}
+startActivity(sendIntent)
