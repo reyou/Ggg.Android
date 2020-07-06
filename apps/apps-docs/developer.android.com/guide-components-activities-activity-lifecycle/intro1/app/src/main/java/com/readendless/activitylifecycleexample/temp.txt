@@ -1,21 +1,37 @@
-override fun onStop() {
-    // call the superclass method first
-    super.onStop()
+public class CustomAsyncHandler extends AsyncQueryHandler {
 
-    // save the note's current draft, because the activity is stopping
-    // and we want to be sure the current note progress isn't lost.
-    val values = ContentValues().apply {
-        put(NotePad.Notes.COLUMN_NAME_NOTE, getCurrentNoteText())
-        put(NotePad.Notes.COLUMN_NAME_TITLE, getCurrentNoteTitle())
+        private WeakReference<AsyncQueryListener> mListener;
+
+        public interface AsyncQueryListener {
+            void onQueryComplete(int token, Object cookie, Cursor cursor);
+        }
+
+        public CustomAsyncHandler(ContentResolver cr, AsyncQueryListener listener) {
+            super(cr);
+            mListener = new WeakReference<AsyncQueryListener>(listener);
+        }
+
+        public CustomAsyncHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        /**
+         * Assign the given {@link AsyncQueryListener} to receive query events from
+         * asynchronous calls. Will replace any existing listener.
+         */
+        public void setQueryListener(AsyncQueryListener listener) {
+            mListener = new WeakReference<AsyncQueryListener>(listener);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            final AsyncQueryListener listener = mListener.get();
+            if (listener != null) {
+                listener.onQueryComplete(token, cookie, cursor);
+            } else if (cursor != null) {
+                cursor.close();
+            }
+        }
+
     }
-
-    // do this update in background on an AsyncQueryHandler or equivalent
-    asyncQueryHandler.startUpdate(
-            token,     // int token to correlate calls
-            null,      // cookie, not used here
-            uri,       // The URI for the note to update.
-            values,    // The map of column names and new values to apply to them.
-            null,      // No SELECT criteria are used.
-            null       // No WHERE columns are used.
-    )
-}

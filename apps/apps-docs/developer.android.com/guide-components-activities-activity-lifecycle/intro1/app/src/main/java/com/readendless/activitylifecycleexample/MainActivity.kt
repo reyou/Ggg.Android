@@ -1,37 +1,66 @@
 package com.readendless.activitylifecycleexample
 
-import android.content.AsyncQueryHandler
-import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private var currentScore: Int = 0
+    private var currentLevel: Int = 0
+
+    companion object {
+        const val STATE_SCORE = "STATE_SCORE"
+        const val STATE_LEVEL = "STATE_LEVEL"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        editTextScore.setText(currentScore.toString())
+        editTextLevel.setText(currentLevel.toString())
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentScore = savedInstanceState[STATE_SCORE] as Int;
+        currentLevel = savedInstanceState[STATE_LEVEL] as Int;
+        editTextScore.setText(currentScore.toString())
+        editTextLevel.setText(currentLevel.toString())
+    }
 
-        // save the note's current draft, because the activity is stopping
-        // and we want to be sure the current note progress isn't lost.
-        val values = ContentValues().apply {
-            put(NotePad.COLUMN_NAME_TITLE, "Current Note Title")
-            put(NotePad.COLUMN_NAME_NOTE, "Current Note Text")
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Save the user's current game state
+        outState.run {
+            putInt(STATE_SCORE, currentScore)
+            putInt(STATE_LEVEL, currentLevel)
         }
 
-        // do this update in background on an AsyncQueryHandler or equivalent
-        val token = 0
-        val uri = null
-        AsyncQueryHandler().startUpdate(
-                token,     // int token to correlate calls
-                null,      // cookie, not used here
-                uri,       // The URI for the note to update.
-                values,    // The map of column names and new values to apply to them.
-                null,      // No SELECT criteria are used.
-                null       // No WHERE columns are used.
-        )
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(outState)
+    }
+
+    fun scoreUp(view: View) {
+        currentScore += 1;
+        editTextScore.setText(currentScore.toString())
+        Toast.makeText(this, "Current score: $currentScore", Toast.LENGTH_SHORT).show()
+    }
+
+    fun levelUp(view: View) {
+        currentLevel += 1;
+        editTextLevel.setText(currentLevel.toString())
+        Toast.makeText(this, "Current level: $currentLevel", Toast.LENGTH_SHORT).show()
+    }
+
+    fun openActivity(view: View) {
+        Intent(this, QuakeActivity::class.java).apply {
+            putExtra("documentId", "123456")
+        }.apply {
+            startActivity(this)
+        }
     }
 
 }
