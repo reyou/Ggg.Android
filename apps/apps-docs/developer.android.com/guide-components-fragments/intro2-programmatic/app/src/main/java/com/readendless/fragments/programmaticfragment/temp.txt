@@ -1,0 +1,22 @@
+Or, programmatically add the fragment to an existing ViewGroup.
+At any time while your activity is running, you can add fragments to your activity layout. You simply need to specify a ViewGroup in which to place the fragment.
+
+To make fragment transactions in your activity (such as add, remove, or replace a fragment), you must use APIs from FragmentTransaction. You can get an instance of FragmentTransaction from your FragmentActivity like this:
+
+KOTLIN
+JAVA
+val fragmentManager = supportFragmentManager
+val fragmentTransaction = fragmentManager.beginTransaction()
+
+You can then add a fragment using the add() method, specifying the fragment to add and the view in which to insert it. For example:
+
+KOTLIN
+JAVA
+val fragment = ExampleFragment()
+fragmentTransaction.add(R.id.fragment_container, fragment)
+fragmentTransaction.commit()
+
+The first argument passed to add() is the ViewGroup in which the fragment should be placed, specified by resource ID, and the second parameter is the fragment to add.
+
+Once you've made your changes with FragmentTransaction, you must call commit() for the changes to take effect.
+
