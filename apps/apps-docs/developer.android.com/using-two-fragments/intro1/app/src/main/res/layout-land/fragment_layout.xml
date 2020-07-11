@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <![CDATA[Using this layout, the system instantiates the TitlesFragment
+    (which lists the play titles) as soon as the activity loads the layout,
+    while the FrameLayout (where the fragment for showing the play summary appears)
+    consumes space on the right side of the screen,
+    but remains empty at first. As you'll see below,
+    it's not until the user selects an item from the list that a
+    fragment is placed into the FrameLayout.
+    This layout below is used only for the landscape (horizontal) screen
+    configuration, by saving it at res/layout-land/fragment_layout.xml.]]>
+
+    <fragment
+        android:id="@+id/titles"
+        class="com.readendless.learning.usingtwofragments.TitlesFragment"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:id="@+id/details"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/detailsElementBackground" />
+
+</LinearLayout>
