@@ -15,10 +15,6 @@ class DetailsFragment : Fragment() {
         arguments?.getInt("index", 0) ?: 0
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
