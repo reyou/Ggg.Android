@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Recents Screen Android Developers</string>
+    <string name="hello_new_document_counter">New Document Counter</string>
+    <string name="reusing_document_counter">Reusing document counter</string>
+    <string name="compose_shortcut_short_label1">Read Book</string>
+    <string name="compose_shortcut_long_label1">Open Book</string>
+    <string name="compose_disabled_message1">Speak Book</string>
+</resources>
